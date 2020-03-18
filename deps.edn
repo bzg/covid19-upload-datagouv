@@ -1,0 +1,33 @@
+{:version     "0.1.0"
+ :description "Script pour envoyer sur https://data.gouv.fr les fichiers liés à l'épidémie de COVID19 mis à disposition par Santé Publique France."
+ :url         "https://github.com/bzg/upload-covid19-datagouv"
+ :license     {:name "Eclipse Public License - v 2.0"
+               :url  "http://www.eclipse.org/legal/epl-v20.html"}
+
+ :paths ["src"]
+ :deps  {org.clojure/clojure {:mvn/version "1.10.1"}
+         clojure.java-time   {:mvn/version "0.3.2"}
+         borkdude/babashka   {:mvn/version "0.0.75"}}
+
+ :aliases
+ {:native-image
+  {:main-opts ["-m clj.native-image core"
+               ;; "--verbose"
+               "--no-fallback"
+               "--report-unsupported-elements-at-runtime"
+               "--initialize-at-build-time"
+               ;; Allow https
+               "-H:EnableURLProtocols=http,https"
+               ;; "-H:+ReportExceptionStackTraces"
+               ;; "-H:+TraceClassInitialization"
+               ;; Optional native image name override
+               "-H:Name=covid19-upload-datagouv"]
+   :jvm-opts  ["-Dclojure.compiler.direct-linking=true"]
+   :extra-deps
+   {clj.native-image
+    {:git/url "https://github.com/taylorwood/clj.native-image.git"
+     :sha     "7708e7fd4572459c81f6a6b8e44c96f41cdd92d4"}}}
+
+  :uberjar {:extra-deps {seancorfield/depstar {:mvn/version "0.5.2"}}
+            :main-opts  ["-m" "hf.depstar.uberjar" "covid19-upload-datagouv.jar"
+                         "-C" "-m" "covid19.upload-datagouv"]}}}
