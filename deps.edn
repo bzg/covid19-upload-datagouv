@@ -11,7 +11,7 @@
 
  :aliases
  {:native-image
-  {:main-opts ["-m clj.native-image core"
+  {:main-opts ["-m clj.native-image covid19.upload-datagouv"
                ;; "--verbose"
                "--no-fallback"
                "--report-unsupported-elements-at-runtime"
@@ -28,6 +28,6 @@
     {:git/url "https://github.com/taylorwood/clj.native-image.git"
      :sha     "7708e7fd4572459c81f6a6b8e44c96f41cdd92d4"}}}
 
-  :uberjar {:extra-deps {seancorfield/depstar {:mvn/version "0.5.2"}}
-            :main-opts  ["-m" "hf.depstar.uberjar" "covid19-upload-datagouv.jar"
-                         "-C" "-m" "covid19.upload-datagouv"]}}}
+  :jar {:extra-deps {seancorfield/depstar {:mvn/version "0.5.2"}}
+        :main-opts  ["-m" "hf.depstar.uberjar" "covid19-upload-datagouv.jar"
+                     "-C" "-m" "covid19.upload-datagouv"]}}}
