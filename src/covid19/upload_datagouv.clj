@@ -8,7 +8,7 @@
 
 (def datagouv-api-token (System/getenv "DATAGOUV_API_TOKEN"))
 
-(def datagouv-covid19-dataset "")
+(def datagouv-covid19-dataset "5e723be64ea6945002c092dc")
 
 (def datagouv-endpoint-format
   (str datagouv-api
@@ -20,14 +20,11 @@
              "X-Api-Key" datagouv-api-token}})
 
 (def spf-files-urls
-  #{"https://url/file1.csv"
-    "https://url/file2.csv"
-    "https://url/file3.csv"})
+  #{"file1.csv"})
 
-(def datagouv-covid19-resources 
-  {"file1.csv" {:resource ""}
-   "file2.csv" {:resource ""}
-   "file3.csv" {:resource ""}})
+(def datagouv-covid19-resources
+  {"file1.csv"
+  {:resource "26db01a9-891c-4b41-be85-d597b949a6c0" }})
 
 (defn get-filename-from-url [url]
   (s/replace url #"^.+/([^/]+)$" "$1"))
@@ -36,7 +33,7 @@
   (println "Downloading SPF files...")
   (doseq [f files]
     (let [fn (get-filename-from-url f)]
-      (curl/get f {:raw-args ["--output" fn]})))
+      (curl/get f {:raw-args ["--output" fn] })))
   (println "Downloading SPF files... done"))
 
 (defn upload-spf-files [files]
